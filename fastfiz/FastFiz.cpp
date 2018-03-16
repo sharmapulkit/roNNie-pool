@@ -1,4 +1,3 @@
-// 
 #include "FastFiz.h"
 #include "Stopwatch.h"
 
@@ -573,7 +572,6 @@ const Point & Table::getPocketRight(Pocket pocket) const {
 }
 
 const Point & Table::getPocketLeft(Pocket pocket) const {
-    Point left = Point();
     switch(pocket) {
         case SW: return _SWpocketLeft;
         case W: return _WpocketLeft;

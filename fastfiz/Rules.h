@@ -147,6 +147,9 @@
                     importFromStream(gameStream);
                 };
 
+                /** Default destructor */
+               virtual ~GameState() { };
+                
                 /**
                  * Determines if the GameState is in a terminal state (i.e. the game is over.)
                  */

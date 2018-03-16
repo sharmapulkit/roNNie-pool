@@ -32,9 +32,9 @@
         using namespace std;
 
         class BadShotException;
-        class ShotParams;
-        class Point;
-        class Vector;
+        struct ShotParams;
+        struct Point;
+        struct Vector;
         class Ball;
         class TableState;
         class Table;
@@ -315,8 +315,8 @@
         /** General utility functions */
         class Utils {
             public:
-                static const double EPSILON = 1.0E-11;              /**< double comparison threshold */
-                static const double VELOCITY_EPSILON = 1E-10;        /**< threshold velocity for balls to be considered stationary. */
+                static constexpr double EPSILON = 1.0E-11;              /**< double comparison threshold */
+                static constexpr double VELOCITY_EPSILON = 1E-10;        /**< threshold velocity for balls to be considered stationary. */
                 //Angle ranges can START_ZERO [0,2pi) or START_NEG_HALF_CIRCLE [-pi,pi)
                 //This can apply to degrees or radians
                 enum ANGLE_RANGE { START_ZERO, START_NEG_HALF_CIRCLE};
@@ -356,12 +356,12 @@
         {
             public:
 #ifndef SWIG
-                static const double MU_BALL_BALL = 0.01;            /**< coefficient of ball-ball friction */
-                static const double MU_CUETIP_BALL = 0.7;           /**< coefficient of cue tip-ball friction */
-                static const double BALL_COEFF_REST_POS = 2.0;      /**< coefficient of restitution for balls */
-                static const double BALL_COEFF_REST_NEG = 0.0;      /**< coefficient of restitution for balls */
-                static const double BALL_MASS = 163.01;             /**< 5.57 oz. ball mass [g] */
-                static const double BALL_RADIUS = 0.028575;         /**< 2.25" ball radius [m] */
+                static constexpr double MU_BALL_BALL = 0.01;            /**< coefficient of ball-ball friction */
+                static constexpr double MU_CUETIP_BALL = 0.7;           /**< coefficient of cue tip-ball friction */
+                static constexpr double BALL_COEFF_REST_POS = 2.0;      /**< coefficient of restitution for balls */
+                static constexpr double BALL_COEFF_REST_NEG = 0.0;      /**< coefficient of restitution for balls */
+                static constexpr double BALL_MASS = 163.01;             /**< 5.57 oz. ball mass [g] */
+                static constexpr double BALL_RADIUS = 0.028575;         /**< 2.25" ball radius [m] */
 #endif /* SWIG */
 
                 /** The present physical state of the ball. */
@@ -502,27 +502,27 @@
         {
             public:
                 /* Physics constants */
-                static const double g = 9.81;                       /**< Gravitational constant.*/
-                static const double MU_SLIDING = 0.2;		/**< coefficient of sliding friction */
-                static const double MU_ROLLING = 0.015;		/**< coefficient of rolling friction */
-                static const double MU_SPINNING = 0.044;		/**< coefficient of spinning friction */
+                static constexpr double g = 9.81;                       /**< Gravitational constant.*/
+                static constexpr double MU_SLIDING = 0.2;		/**< coefficient of sliding friction */
+                static constexpr double MU_ROLLING = 0.015;		/**< coefficient of rolling friction */
+                static constexpr double MU_SPINNING = 0.044;		/**< coefficient of spinning friction */
 
                 /* Default table parameters */
-                static const double TABLE_LENGTH = 2.236;		/**< table length [m] */
-                static const double TABLE_WIDTH = 1.116;		/**< table width [m] */
-                static const double CORNER_POCKET_WIDTH = 0.11;	/**< corner pocket width [m] */
-                static const double SIDE_POCKET_WIDTH = 0.12;	/**< side pocket width [m] */
-                static const double RAIL_HEIGHT = 0.040005;		/**< rail height [m] */
-                static const double CUE_LENGTH = 1.45;		/**< cue length [m] */
-                static const double RAIL_VEL_DAMPING_X = 0.6;	/**< damping factor for velocity component parallel to rail */
-                static const double RAIL_VEL_DAMPING_Y = 0.9;	/**< damping factor for velocity component perpendicular to rail */
-                static const double RAIL_SPIN_DAMPING = 0.1;	/**< damping factor for angular velocity component */
-                static const double RAIL_VEL_ANGLE_ADJ = 0.0;	/**< angle adjustment factor for velocity vector */
-                static const double RAIL_ZSPIN_ANGLE_ADJ = 0.0;	/**< angle adjustment factor for vertical component of angular velocity vector */
+                static constexpr double TABLE_LENGTH = 2.236;		/**< table length [m] */
+                static constexpr double TABLE_WIDTH = 1.116;		/**< table width [m] */
+                static constexpr double CORNER_POCKET_WIDTH = 0.11;	/**< corner pocket width [m] */
+                static constexpr double SIDE_POCKET_WIDTH = 0.12;	/**< side pocket width [m] */
+                static constexpr double RAIL_HEIGHT = 0.040005;		/**< rail height [m] */
+                static constexpr double CUE_LENGTH = 1.45;		/**< cue length [m] */
+                static constexpr double RAIL_VEL_DAMPING_X = 0.6;	/**< damping factor for velocity component parallel to rail */
+                static constexpr double RAIL_VEL_DAMPING_Y = 0.9;	/**< damping factor for velocity component perpendicular to rail */
+                static constexpr double RAIL_SPIN_DAMPING = 0.1;	/**< damping factor for angular velocity component */
+                static constexpr double RAIL_VEL_ANGLE_ADJ = 0.0;	/**< angle adjustment factor for velocity vector */
+                static constexpr double RAIL_ZSPIN_ANGLE_ADJ = 0.0;	/**< angle adjustment factor for vertical component of angular velocity vector */
 
                 //used in CueStrikeEvent::doHandle
-                static const double CUE_MASS = 600.0;
-                static const double I = 0.4*160.0*0.028575*0.028575*0.995473; /**< moment of inertia; to match poolfiz */
+                static constexpr double CUE_MASS = 600.0;
+                static constexpr double I = 0.4*160.0*0.028575*0.028575*0.995473; /**< moment of inertia; to match poolfiz */
 
                 /** A rail or a pocket. */
                 enum BoundaryId { SW_POCKET, SW_RAIL, W_POCKET, NW_RAIL, NW_POCKET, N_RAIL, NE_POCKET,
@@ -971,7 +971,7 @@
                 static double calcEventTime(int numRoots, double root1, double root2, double curTime);
 
                 static int solveQuartic(double roots[], double a0, double a1, double a2, double a3, double a4);
-                static const double NEAR_FUTURE_EPSILON = 1E-8;
+                static constexpr double NEAR_FUTURE_EPSILON = 1E-8;
                 static double leastPositiveRealRoot(double roots[],double epsilon=NEAR_FUTURE_EPSILON);
 
 
@@ -986,10 +986,10 @@
 
                 //static void addFutureEvents(TableState &state, double curTime, list<Event*> &futureEvents);
 
-                //static const double BALL_MASS = 160.0; //From Marlow, in line with BCA rules
-                //static const double g = GSL_CONST_MKSA_GRAV_ACCEL;
-                //static const double R = 0.028575; //Ball radius //Now taken from Ball::BALL_RADIUS
-                //static const int NUM_BALLS = 16; //Now taken from TableState::getNumBalls()
+                //static constexpr double BALL_MASS = 160.0; //From Marlow, in line with BCA rules
+                //static constexpr double g = GSL_CONST_MKSA_GRAV_ACCEL;
+                //static constexpr double R = 0.028575; //Ball radius //Now taken from Ball::BALL_RADIUS
+                //static constexpr int NUM_BALLS = 16; //Now taken from TableState::getNumBalls()
 #endif /* ! SWIG */
         };
 #ifndef SWIG
@@ -1004,9 +1004,9 @@
         {
             public:
                 /* Thresholds */
-                static const double MAX_VELOCITY = 10;		/**< maximum velocity allowed [m/s]  */
-                static const double MIN_THETA = 0.0;		/**< minimum theta allowed [degrees] */
-                static const double MAX_THETA = 70.0;		/**< maximum theta allowed [degrees] */
+                static constexpr double MAX_VELOCITY = 10;		/**< maximum velocity allowed [m/s]  */
+                static constexpr double MIN_THETA = 0.0;		/**< minimum theta allowed [degrees] */
+                static constexpr double MAX_THETA = 70.0;		/**< maximum theta allowed [degrees] */
 
                 /** This integer is used within the bitmask integer returned by Table::isPhysicallyPossible()
                  *	and Table::isValidBallPlacement() (as well as the fizG versions of those classes). It 
@@ -1015,7 +1015,7 @@
                  *	'Variables' in the HTML documentation or listed below in the header file; you can AND the result 
                  *	returned by these methods with any of the possibilities from the list below to test if that 
                  *	particular possibility is true.  */
-                static const int OK_PRECONDITION = 0;
+                static constexpr int OK_PRECONDITION = 0;
 
                 /** This integer is used within the bitmask integer returned by Table::isPhysicallyPossible()
                  *	and Table::isValidBallPlacement() (as well as the fizG versions of those classes).  It 
@@ -1025,7 +1025,7 @@
                  *	'Variables' in the HTML documentation or listed below in the header file; you can AND the result 
                  *	returned by these methods with any of the possibilities from the list below to test if that 
                  *	particular possibility is true.  */
-                static const int BAD_A_VAL = 1; 	
+                static constexpr int BAD_A_VAL = 1; 	
 
                 /** This integer is used within the bitmask integer returned by Table::isPhysicallyPossible()
                  *	and Table::isValidBallPlacement() (as well as the fizG versions of those classes).  It 
@@ -1035,7 +1035,7 @@
                  *	'Variables' in the HTML documentation or listed below in the header file; you can AND the result 
                  *	returned by these methods with any of the possibilities from the list below to test if that 
                  *	particular possibility is true.  */
-                static const int BAD_B_VAL = 2;
+                static constexpr int BAD_B_VAL = 2;
 
                 /** This integer is used within the bitmask integer returned by Table::isPhysicallyPossible()
                  *	and Table::isValidBallPlacement() (as well as the fizG versions of those classes).  It 
@@ -1045,7 +1045,7 @@
                  *	'Variables' in the HTML documentation or listed below in the header file; you can AND the result 
                  *	returned by these methods with any of the possibilities from the list below to test if that 
                  *	particular possibility is true.  */
-                static const int BAD_THETA_VAL = 4;
+                static constexpr int BAD_THETA_VAL = 4;
 
                 /** This integer is used within the bitmask integer returned by Table::isPhysicallyPossible()
                  *	and Table::isValidBallPlacement() (as well as the fizG versions of those classes).  It 
@@ -1055,7 +1055,7 @@
                  *	'Variables' in the HTML documentation or listed below in the header file; you can AND the result 
                  *	returned by these methods with any of the possibilities from the list below to test if that 
                  *	particular possibility is true.  */
-                static const int BAD_PHI_VAL = 8;
+                static constexpr int BAD_PHI_VAL = 8;
 
                 /** This integer is used within the bitmask integer returned by Table::isPhysicallyPossible()
                  *	and Table::isValidBallPlacement() (as well as the fizG versions of those classes).  It 
@@ -1065,7 +1065,7 @@
                  *	'Variables' in the HTML documentation or listed below in the header file; you can AND the result 
                  *	returned by these methods with any of the possibilities from the list below to test if that 
                  *	particular possibility is true.  */
-                static const int BAD_V_VAL = 16; 	
+                static constexpr int BAD_V_VAL = 16; 	
 
                 /** This integer is used within the bitmask integer returned by Table::isPhysicallyPossible()
                  *	and Table::isValidBallPlacement() (as well as the fizG versions of those classes).  It 
@@ -1075,7 +1075,7 @@
                  *	'Variables' in the HTML documentation or listed below in the header file; you can AND the result 
                  *	returned by these methods with any of the possibilities from the list below to test if that 
                  *	particular possibility is true.  */
-                static const int BAD_X_VAL = 32;	
+                static constexpr int BAD_X_VAL = 32;	
 
                 /** This integer is used within the bitmask integer returned by Table::isPhysicallyPossible()
                  *	and Table::isValidBallPlacement() (as well as the fizG versions of those classes).  It 
@@ -1085,7 +1085,7 @@
                  *	'Variables' in the HTML documentation or listed below in the header file; you can AND the result 
                  *	returned by these methods with any of the possibilities from the list below to test if that 
                  *	particular possibility is true.  */
-                static const int BAD_Y_VAL = 64;
+                static constexpr int BAD_Y_VAL = 64;
 
                 /** This integer is used within the bitmask integer returned by Table::isPhysicallyPossible()
                  *	and Table::isValidBallPlacement() (as well as the fizG versions of those classes).  It 
@@ -1095,7 +1095,7 @@
                  *	'Variables' in the HTML documentation or listed below in the header file; you can AND the result 
                  *	returned by these methods with any of the possibilities from the list below to test if that 
                  *	particular possibility is true.  */
-                static const int CUE_STICK_COLLISION = 128;
+                static constexpr int CUE_STICK_COLLISION = 128;
 
                 /** This integer is used within the bitmask integer returned by Table::isPhysicallyPossible()
                  *	and Table::isValidBallPlacement() (as well as the fizG versions of those classes).  It 
@@ -1105,7 +1105,7 @@
                  *	'Variables' in the HTML documentation or listed below in the header file; you can AND the result 
                  *	returned by these methods with any of the possibilities from the list below to test if that 
                  *	particular possibility is true.  */
-                static const int BALL_OVERLAP = 256;
+                static constexpr int BALL_OVERLAP = 256;
 
                 /** Create an empty table state for given table (or default table if not specified) */
                 TableState(const Table &table=Table::defaultTable()) : _table(table), balls() {}
@@ -1233,10 +1233,10 @@
                 const Table &_table;
                 vector<Ball> balls;
 
-                static const double DITHER = 0.00005;                 
-                static const double EPSILON_B = 0.001;		/**< small value added to the b shot parameter for threshold calculations [mm] */
-                static const double EPSILON_THETA = 0.001;		/**< small value added to the theta shot parameter for threshold calculations [degrees] */
-                static const int MAX_BALLS_ON_TABLE = 100;          /**< Maximum balls allowed on the table at any time. */
+                static constexpr double DITHER = 0.00005;                 
+                static constexpr double EPSILON_B = 0.001;		/**< small value added to the b shot parameter for threshold calculations [mm] */
+                static constexpr double EPSILON_THETA = 0.001;		/**< small value added to the theta shot parameter for threshold calculations [degrees] */
+                static constexpr int MAX_BALLS_ON_TABLE = 100;          /**< Maximum balls allowed on the table at any time. */
 
                 static int numLineSphereIntersections(Vector &p1, Vector &p2, Vector &p3, double rad, double& root1, double& root2);
                 int findOverlap(Ball::Type ball) const;  

@@ -350,8 +350,9 @@ void EightBallState::processShot(const vector<Event*>& eventList, const GameShot
                 bool scratch = false; // set to true if the cue ball is sunk.
                 bool eight_ball_pocketed = false; // set to true if the eight ball is pocketed
                 bool first_ball_collision = false; // set to true after the first ball collision occurs
-                bool safety_shot = false;
-                if (gameShot.ball == Ball::UNKNOWN_ID) safety_shot=true;
+                // TODO: Check use of safety_shot
+                // bool safety_shot = false;
+                // if (gameShot.ball == Ball::UNKNOWN_ID) safety_shot=true;
                 bool foul = false; // For any other sorts of fouls
                 bool past_head_string = false;
                 Ball::Type first_ball = Ball::CUE;
