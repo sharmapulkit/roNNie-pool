@@ -1,4 +1,4 @@
-/** 
+/**
   @mainpage Computational Billiards Library
   @author Alon Altman
   \section Introduction

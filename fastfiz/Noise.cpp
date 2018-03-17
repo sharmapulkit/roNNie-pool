@@ -19,78 +19,64 @@
  ***************************************************************************/
 
 #include "Noise.h"
-#include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
+#include <gsl/gsl_rng.h>
 
 using namespace std;
 
-Pool::Noise * Pool::Noise::Factory(istream & sourceStream)
-{
-    int noiseType;
-    sourceStream >> noiseType;
-    NoiseType noise_type((NoiseType)noiseType); // Should cast things
-    switch ((int)noise_type)
-    {
-        case NT_NONE:
-            {
-                NoNoise* newNoise = new NoNoise(sourceStream);
-                return newNoise;
-                break;
-            }
+Pool::Noise *Pool::Noise::Factory(istream &sourceStream) {
+  int noiseType;
+  sourceStream >> noiseType;
+  NoiseType noise_type((NoiseType)noiseType); // Should cast things
+  switch ((int)noise_type) {
+  case NT_NONE: {
+    NoNoise *newNoise = new NoNoise(sourceStream);
+    return newNoise;
+    break;
+  }
 
-        case NT_GAUSSIAN:
-            {
-                GaussianNoise* newNoise = new GaussianNoise(sourceStream);
-                return newNoise;
-                break;
-            }
+  case NT_GAUSSIAN: {
+    GaussianNoise *newNoise = new GaussianNoise(sourceStream);
+    return newNoise;
+    break;
+  }
 
-        default:
-            cerr << "Unidentified noise." << endl;
-            cerr << "NoiseType: " << noise_type << endl;
-            break;
-    }
-    return NULL;
+  default:
+    cerr << "Unidentified noise." << endl;
+    cerr << "NoiseType: " << noise_type << endl;
+    break;
+  }
+  return NULL;
 }
 
-string Pool::Noise::toString()
-{
-    ostringstream output;
-    toStream(output);
-    return output.str();
+string Pool::Noise::toString() {
+  ostringstream output;
+  toStream(output);
+  return output.str();
 }
 
-void Pool::Noise::toStream(ostream & out) const
-{
-    out << noiseType();
+void Pool::Noise::toStream(ostream &out) const { out << noiseType(); }
+
+void Pool::GaussianNoise::applyNoise(ShotParams &sp) const {
+  sp.a += gsl_ran_gaussian(Utils::rng(), a);
+  sp.b += gsl_ran_gaussian(Utils::rng(), b);
+  sp.theta += gsl_ran_gaussian(Utils::rng(), theta);
+  sp.phi += gsl_ran_gaussian(Utils::rng(), phi);
+  sp.v += gsl_ran_gaussian(Utils::rng(), v);
 }
 
-void Pool::GaussianNoise::applyNoise(ShotParams & sp) const
-{
-    sp.a += gsl_ran_gaussian(Utils::rng(), a);
-    sp.b += gsl_ran_gaussian(Utils::rng(), b);
-    sp.theta += gsl_ran_gaussian(Utils::rng(), theta);
-    sp.phi += gsl_ran_gaussian(Utils::rng(), phi);
-    sp.v += gsl_ran_gaussian(Utils::rng(), v);
+void Pool::GaussianNoise::importFromStream(istream &sourceStream) {
+  sourceStream >> a >> b >> theta >> phi >> v;
 }
 
-void Pool::GaussianNoise::importFromStream(istream & sourceStream)
-{
-    sourceStream >> a >> b >> theta >> phi >> v;
+void Pool::GaussianNoise::toStream(ostream &out) const {
+  Noise::toStream(out);
+  out << " " << setprecision(20) << a << " " << setprecision(20) << b << " "
+      << setprecision(20) << theta << " " << setprecision(20) << phi << " "
+      << setprecision(20) << v;
 }
 
-void Pool::GaussianNoise::toStream(ostream & out) const
-{
-    Noise::toStream(out);
-    out << " " << setprecision(20) << a 
-        << " " << setprecision(20) << b 
-        << " " << setprecision(20) << theta
-        << " " << setprecision(20) << phi  
-        << " " << setprecision(20) << v;
-}
-
-ostream & Pool::operator <<(ostream & os, const Noise & obj)
-{
-    obj.toStream(os);
-    return os;
+ostream &Pool::operator<<(ostream &os, const Noise &obj) {
+  obj.toStream(os);
+  return os;
 }
