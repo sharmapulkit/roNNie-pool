@@ -9,8 +9,8 @@
 using namespace Pool;
 %}
 #endif /* SWIG */
+#include <iosfwd>
 #include <string>
-using namespace std;
 
 namespace Pool {
 /**
@@ -59,7 +59,7 @@ enum TurnType {
                              DEC_NINEBALL_PUSH_OUT) */
 };
 
-inline istream &operator>>(istream &is, TurnType &tt) {
+inline std::istream &operator>>(std::istream &is, TurnType &tt) {
   int code;
   is >> code;
   tt = TurnType(code);
@@ -126,14 +126,14 @@ public:
    * stream.
    * Game state should have been written with toStream or toString.
    */
-  static GameState *Factory(istream &sourceStream);
+  static GameState *Factory(std::istream &sourceStream);
   /**
    * Generate a new GameState object by reading information from an input
    * string.
    * Game state should have been written with toStream or toString.
    */
-  static GameState *Factory(string sourceString) {
-    istringstream gameSourceStream(sourceString);
+  static GameState *Factory(std::string sourceString) {
+    std::istringstream gameSourceStream(sourceString);
     return Factory(gameSourceStream);
   }
   /**
@@ -156,8 +156,8 @@ public:
         _timeLeftOpp(timeleft_opp), _curPlayerStarted(true){};
 
   /** Parse common part of GameState from string */
-  GameState(string gameString) {
-    istringstream gameStream(gameString);
+  GameState(std::string gameString) {
+    std::istringstream gameStream(gameString);
     importFromStream(gameStream);
   };
 
@@ -195,8 +195,8 @@ public:
   /**
    * Convienence parsing operators.
    */
-  friend ostream &operator<<(ostream &os, const GameState &obj);
-  friend istream &operator>>(istream &is, GameState &obj);
+  friend std::ostream &operator<<(std::ostream &os, const GameState &obj);
+  friend std::istream &operator>>(std::istream &is, GameState &obj);
 #endif /* ! SWIG */
 
   // Serilaize GameState as a string, only relevant parts.
@@ -204,7 +204,7 @@ public:
   /**
    * Serializes the GameState as a string.
    */
-  virtual string toString();
+  virtual std::string toString();
 
 #ifndef SWIG
   // Puts out the default values.
@@ -212,7 +212,7 @@ public:
   /**
    * Exports the GameState to a stream.
    */
-  virtual void toStream(ostream &out) const;
+  virtual void toStream(std::ostream &out) const;
 
   /** Allocate a new copy of this GameState */
   virtual GameState *clone() = 0;
@@ -273,7 +273,7 @@ protected:
   }
 
   /** Read common information from an input stream */
-  virtual void importFromStream(istream &sourceStream);
+  virtual void importFromStream(std::istream &sourceStream);
 
   //////////////////////////////////////////////////
   // Rules implementation functions
@@ -296,7 +296,7 @@ protected:
 
   /** Called after shot execution to process an event list and adjust game
    * state. */
-  virtual void processShot(const vector<Event *> &eventList,
+  virtual void processShot(const std::vector<Event *> &eventList,
                            const GameShot &gameShot) = 0;
 
   /** Update TableState to the racked state, does NOT update other params. */
@@ -333,17 +333,17 @@ public:
    * Convienence functions to facilitate working with the strings used to
    * send over the wire.
    */
-  friend ostream &operator<<(ostream &os, const EightBallState &obj);
+  friend std::ostream &operator<<(std::ostream &os, const EightBallState &obj);
   /**
    * See above
    */
-  friend istream &operator>>(istream &is, EightBallState &obj);
+  friend std::istream &operator>>(std::istream &is, EightBallState &obj);
 
   /**
    * Construct an EightBallState by reading from string. Used by Factory.
    */
-  EightBallState(string gameString) {
-    istringstream infoStream(gameString);
+  EightBallState(std::string gameString) {
+    std::istringstream infoStream(gameString);
     importFromStream(infoStream);
   };
 
@@ -357,12 +357,12 @@ public:
   /**
    * Construct an EightBallState by reading from stream. Used by Factory.
    */
-  EightBallState(istream &is) { importFromStream(is); };
+  EightBallState(std::istream &is) { importFromStream(is); };
 
 #ifndef SWIG
   // Puts out the default values.
   // Subclasses should call this, and then output their internals
-  virtual void toStream(ostream &out) const;
+  virtual void toStream(std::ostream &out) const;
 
   virtual GameState *clone();
 
@@ -379,7 +379,7 @@ public:
 
 protected:
   // Import from a stream
-  virtual void importFromStream(istream &sourceStream);
+  virtual void importFromStream(std::istream &sourceStream);
 
   virtual bool isLegalTurnType() const {
     return GameState::isLegalTurnType() ||
@@ -398,7 +398,7 @@ protected:
 
   // Update turnType and curPlayerStarted based on the events that occured in
   // the shot
-  virtual void processShot(const vector<Event *> &eventList,
+  virtual void processShot(const std::vector<Event *> &eventList,
                            const GameShot &gameShot);
 
   // Update TableState to the racked state, does NOT update other params.
@@ -423,12 +423,12 @@ public:
   };
 
   // The usual IO friend functions
-  friend ostream &operator<<(ostream &os, const NineBallState &obj);
-  friend istream &operator>>(istream &is, NineBallState &obj);
+  friend std::ostream &operator<<(std::ostream &os, const NineBallState &obj);
+  friend std::istream &operator>>(std::istream &is, NineBallState &obj);
 
   // Parse common part of GameState from string
-  NineBallState(string gameString) {
-    istringstream infoStream(gameString);
+  NineBallState(std::string gameString) {
+    std::istringstream infoStream(gameString);
     importFromStream(infoStream);
   };
 
@@ -439,12 +439,12 @@ public:
   GameType gameType() const { return GT_NINEBALL; };
 
   // Parse game specific parts of the stream
-  NineBallState(istream &is) { importFromStream(is); };
+  NineBallState(std::istream &is) { importFromStream(is); };
 
 #ifndef SWIG
   // Puts out the default values.
   // Subclasses should call this, and then output their internals
-  virtual void toStream(ostream &out) const;
+  virtual void toStream(std::ostream &out) const;
 
   virtual GameState *clone();
 
@@ -456,7 +456,7 @@ public:
 
 protected:
   // Import from a stream
-  virtual void importFromStream(istream &sourceStream);
+  virtual void importFromStream(std::istream &sourceStream);
 
   virtual bool isLegalTurnType() const {
     return _turnType != TT_BEHIND_LINE &&
@@ -476,7 +476,7 @@ protected:
 
   // Update turnType and curPlayerStarted based on the events that occured in
   // the shot
-  virtual void processShot(const vector<Event *> &eventList,
+  virtual void processShot(const std::vector<Event *> &eventList,
                            const GameShot &gameShot);
 
   // Update TableState to the racked state, does NOT update other params.
@@ -492,7 +492,7 @@ protected:
 }; // Class NineBallState
 
 #endif /* ! SWIG */
-string getRulesVersion();
+std::string getRulesVersion();
 
 } // Namespace pool
 

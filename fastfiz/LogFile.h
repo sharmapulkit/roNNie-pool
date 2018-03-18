@@ -16,8 +16,6 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-
 namespace Pool {
 
 /**
@@ -42,10 +40,10 @@ public:
    * \param agentName Name of agent executing the shots (usually ai.getName()).
    * \param opponentName Name of opponent to be written to log.
    */
-  LogWriter(ostream &os, const GameType gameType = GT_NONE,
+  LogWriter(std::ostream &os, const GameType gameType = GT_NONE,
             const Noise *const noise = 0,
-            const string agentName = "Default Agent",
-            const string opponentName = "")
+            const std::string agentName = "Default Agent",
+            const std::string opponentName = "")
       : _agentName(agentName), _opponentName(opponentName), _noise(noise),
         _ofs(NULL), _os(os) {
     writeHeader(gameType);
@@ -62,10 +60,10 @@ public:
    */
   LogWriter(const char *const filename, const GameType gameType = GT_NONE,
             const Noise *const noise = 0,
-            const string agentName = "Default Agent",
-            const string opponentName = "")
+            const std::string agentName = "Default Agent",
+            const std::string opponentName = "")
       : _agentName(agentName), _opponentName(opponentName), _noise(noise),
-        _ofs(new ofstream(filename)), _os(*_ofs) {
+        _ofs(new std::ofstream(filename)), _os(*_ofs) {
     writeHeader(gameType);
   };
 
@@ -79,7 +77,7 @@ public:
    * \param agentName Name of agent executing future shots.
    * \param opponentName Name of the other agent.
    */
-  void setAgents(const string agentName, const string opponentName = "") {
+  void setAgents(const std::string agentName, const std::string opponentName = "") {
     _agentName = agentName;
     _opponentName = opponentName;
   };
@@ -134,7 +132,7 @@ public:
    * Adds a comment to the log file. Comment will be displayed in game viewer
    * with next shot.
    */
-  void comment(const string text);
+  void comment(const std::string text);
 
   /**
    * Execute specified shot and if physically possible, write previous state and
@@ -171,10 +169,10 @@ protected:
    */
   void writeShotParams(const ShotParams &sp);
 
-  string _agentName, _opponentName;
+  std::string _agentName, _opponentName;
   const Noise *_noise;
-  ofstream *_ofs;
-  ostream &_os;
+  std::ofstream *_ofs;
+  std::ostream &_os;
 };
 /*
    class LogReader {

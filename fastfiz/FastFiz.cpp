@@ -1,6 +1,10 @@
 #include "FastFiz.h"
 #include "Stopwatch.h"
 
+#include <algorithm>
+#include <cassert>
+#include <iomanip>
+#include <iostream>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_poly.h>
 #include <gsl/gsl_randist.h>
@@ -32,6 +36,8 @@
  *Poolfiz) *
  * and from The Physics of Pocket Billiards by Wayland C. Marlow. *
  ***********************************************************************************/
+
+using namespace std;
 
 namespace Pool {
 

@@ -8,16 +8,15 @@
 #endif /* SWIG */
 
 #include "FastFiz.h"
-#include <iostream>
+#include <iosfwd>
 #include <string>
-using namespace std;
 
 namespace Pool {
 
 /** Noise Types */
 enum NoiseType { NT_UNDEFINED, NT_NONE, NT_GAUSSIAN = 2 };
 #ifndef SWIG
-inline istream &operator>>(istream &is, NoiseType nt) {
+inline std::istream &operator>>(std::istream &is, NoiseType nt) {
   int code;
   is >> code;
   nt = NoiseType(code);
@@ -30,11 +29,11 @@ class Noise {
 public:
 #ifndef SWIG
   /** Factory Function -- read noise info from a stream */
-  static Noise *Factory(istream &sourceStream);
+  static Noise *Factory(std::istream &sourceStream);
 #endif
   /** Factory Function -- read noise info from a string */
-  static Noise *Factory(string sourceString) {
-    istringstream noiseSourceStream(sourceString);
+  static Noise *Factory(std::string sourceString) {
+    std::istringstream noiseSourceStream(sourceString);
     return Factory(noiseSourceStream);
   };
 
@@ -43,12 +42,12 @@ public:
 ///////////////////////////////////////////////////
 // Define friend operator functions
 #ifndef SWIG
-  friend ostream &operator<<(ostream &os, const Noise &obj);
+  friend std::ostream &operator<<(std::ostream &os, const Noise &obj);
 
-  virtual void toStream(ostream &out) const;
+  virtual void toStream(std::ostream &out) const;
 #endif
 
-  virtual string toString();
+  virtual std::string toString();
 
   /** Return the type of noise used */
   virtual NoiseType noiseType() const = 0;
@@ -60,23 +59,23 @@ public:
 
 protected:
   // Import from a stream
-  virtual void importFromStream(istream &sourceStream){};
+  virtual void importFromStream(std::istream &sourceStream){};
 
 }; // Class Noise
 
 #ifndef SWIG
-ostream &operator<<(ostream &os, const Noise &obj);
+std::ostream &operator<<(std::ostream &os, const Noise &obj);
 
 /** Trivial class implementing null noise. */
 class NoNoise : public Noise {
 public:
   NoNoise() {}
 
-  NoNoise(istream &sourceStream) { importFromStream(sourceStream); }
+  NoNoise(std::istream &sourceStream) { importFromStream(sourceStream); }
 
   // Parse common part of GameState from string
-  NoNoise(string noiseString) {
-    istringstream infoStream(noiseString);
+  NoNoise(std::string noiseString) {
+    std::istringstream infoStream(noiseString);
     importFromStream(infoStream);
   };
 
@@ -96,24 +95,24 @@ public:
   GaussianNoise(double _a, double _b, double _theta, double _phi, double _v)
       : a(_a), b(_b), theta(_theta), phi(_phi), v(_v){};
 
-  GaussianNoise(istream &sourceStream) { importFromStream(sourceStream); };
+  GaussianNoise(std::istream &sourceStream) { importFromStream(sourceStream); };
 
   // Parse common part of GameState from string
-  GaussianNoise(string noiseString) {
-    istringstream infoStream(noiseString);
+  GaussianNoise(std::string noiseString) {
+    std::istringstream infoStream(noiseString);
     importFromStream(infoStream);
   };
 
   // Return type of game
   NoiseType noiseType() const { return NT_GAUSSIAN; };
 
-  virtual void toStream(ostream &out) const;
+  virtual void toStream(std::ostream &out) const;
 
   virtual void applyNoise(ShotParams &sp) const;
 
 protected:
   // Import from a stream
-  virtual void importFromStream(istream &sourceStream);
+  virtual void importFromStream(std::istream &sourceStream);
 
 private:
   double a, b, theta, phi, v;

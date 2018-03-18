@@ -6,8 +6,6 @@
 #ifndef _STOPWATCH_H_
 #define _STOPWATCH_H_
 
-#include <time.h>
-
 typedef struct timeval timeval;
 
 /** Utility class heirarchy to measure time in various ways.

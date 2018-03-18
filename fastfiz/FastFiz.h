@@ -9,15 +9,9 @@
 %}
 #endif /* SWIG */
 
-#include <algorithm>
-#include <cassert>
-#include <cstring>
 #include <gsl/gsl_rng.h>
-#include <iomanip>
-#include <iostream>
+#include <iosfwd>
 #include <list>
-#include <math.h>
-#include <set>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -29,8 +23,6 @@
  * reside.
  */
 namespace Pool {
-
-using namespace std;
 
 class BadShotException;
 struct ShotParams;
@@ -50,7 +42,7 @@ class Utils;
  * TableState::getFirstBallHit() is called.
  * The Type cannot be changed after construction.
  */
-class BadShotException : public exception {
+class BadShotException : public std::exception {
 public:
   enum Type {
     OK,                 /**< The Shot was okay. */
@@ -76,7 +68,7 @@ public:
   /**
    * Returns the Type of the BadShotException as a string.
    */
-  string getTypeString() const;
+  std::string getTypeString() const;
 
   /**
    * Returns a const char* pointing to a c string about what type of Exception
@@ -137,7 +129,7 @@ struct ShotParams {
 /**
  * Writes human-readable output for the ShotParams object to the output stream.
  */
-ostream &operator<<(ostream &out, const ShotParams &rhs);
+std::ostream &operator<<(std::ostream &out, const ShotParams &rhs);
 #endif /* SWIG */
 
 /**
@@ -206,7 +198,7 @@ struct Point {
    * doubles followed by a trailing space) to the stream provided.
    * It can later be interpreted by fromStream() of fromString().
    */
-  void toStream(ostream &out) const;
+  void toStream(std::ostream &out) const;
 
   /**
    * Reads a machine-readable string representation of a Point (a sequence of
@@ -214,7 +206,7 @@ struct Point {
    * written by toStream() or toString() from the stream provided and assigns
    * the values to this Point object.
    */
-  void fromStream(istream &in);
+  void fromStream(std::istream &in);
 
 #endif /* ! SWIG */
 
@@ -224,7 +216,7 @@ struct Point {
    * (a sequence of space-separated doubles followed by a trailing space).
    * It can later be interpreted by fromString() or fromStream().
    */
-  string toString() const;
+  std::string toString() const;
 
   /**
    * Takes a machine-readable string representation of a Point (a sequence of
@@ -232,14 +224,14 @@ struct Point {
    * created by toString() or toStream() and assigns the values to this Point
    * object.
    */
-  void fromString(const string &s);
+  void fromString(const std::string &s);
 };
 
 #ifndef SWIG
 /**
  * Writes human-readable output for the Point object to the output stream.
  */
-ostream &operator<<(ostream &out, const Point &rhs);
+std::ostream &operator<<(std::ostream &out, const Point &rhs);
 
 #endif /* !SWIG */
 
@@ -336,14 +328,14 @@ struct Vector {
    */
   Point to_p() const;
 
-  void toStream(ostream &out) const;
-  void fromStream(istream &in);
+  void toStream(std::ostream &out) const;
+  void fromStream(std::istream &in);
 #endif /* ! SWIG */
-  string toString() const;
-  void fromString(const string &s);
+  std::string toString() const;
+  void fromString(const std::string &s);
 };
 #ifndef SWIG
-ostream &operator<<(ostream &out,
+std::ostream &operator<<(std::ostream &out,
                     const Vector &rhs); // doesn't need to be friend
 #endif                                  /* ! SWIG */
 
@@ -483,11 +475,11 @@ public:
   /** Returns the ID (number) of the ball */
   Type getID() const { return type; }
   /** Returns the name of the ball (CUE, ONE, etc.) as a string */
-  string getIDString() const;
+  std::string getIDString() const;
   /** Returns the physical state of the ball */
   State getState() const { return state; }
   /** Returns the physical state of the ball as a string */
-  string getStateString() const;
+  std::string getStateString() const;
   /** Returns the x,y position of the ball */
   const Point &getPos() const { return r; }
   /** Returns the x,y,z velocity of the ball */
@@ -545,23 +537,23 @@ public:
    * position.
    * Only writes location information, not velocity and spin.
    */
-  void toStream(ostream &out) const;
+  void toStream(std::ostream &out) const;
   /** Read a machine-readable representation of the ball's type, radius and
    * position.
    * Should be used on data written by toStream()/toString().
    */
-  void fromStream(istream &in);
+  void fromStream(std::istream &in);
 #endif /* ! SWIG */
   /** Returns a string including a machine-readable representation of the ball's
    * type, radius and position.
    * Only outputs location information, not velocity and spin.
    */
-  string toString() const;
+  std::string toString() const;
   /** Read a machine-readable representation of the ball's type, radius and
    * position from string.
    * Should be used on data created by toString()/toStream().
    */
-  void fromString(const string &s);
+  void fromString(const std::string &s);
 #ifndef SWIG
 
 private:
@@ -575,7 +567,7 @@ private:
 };
 
 #ifndef SWIG
-ostream &operator<<(ostream &out,
+std::ostream &operator<<(std::ostream &out,
                     const Ball &rhs); // doesn't need to be a friend
 #endif                                /* !SWIG */
 
@@ -769,9 +761,9 @@ public:
   /** Returns the same pocket in BoundaryId form rather than Pocket form */
   static BoundaryId bndIdFromPocket(Pocket pocket);
   /** returns a string of the boundary name */
-  static string boundaryName(BoundaryId boundary);
+  static std::string boundaryName(BoundaryId boundary);
   /** returns a string of the pocket name */
-  static string pocketName(Pocket pocket);
+  static std::string pocketName(Pocket pocket);
 #ifndef SWIG
 
 private:
@@ -822,7 +814,7 @@ private:
  */
 class Event {
 #ifndef SWIG
-  friend ostream &operator<<(ostream &out, const Event &rhs);
+  friend std::ostream &operator<<(std::ostream &out, const Event &rhs);
 #endif /* ! SWIG */
 public:
   /** Indicates the type of event.*/
@@ -861,12 +853,12 @@ public:
   static bool eventCmp(const Event *event1, const Event *event2);
 
   /** Returns a human-readble string representation of the event. */
-  string toString() const;
+  std::string toString() const;
 
   /** Returns the type of the event */
   virtual Type getType() const { return UNKNOWN_EVENT; }
   /** Returns the type of the event as a string */
-  virtual string getTypeString() const { return "Unknown Event"; }
+  virtual std::string getTypeString() const { return "Unknown Event"; }
   /** Returns the id of the second ball involved in the event, if applicable */
   virtual Ball::Type getBall2() const { return Ball::UNKNOWN_ID; }
   /** Returns the physical information (location, velocity,spin) of the second
@@ -900,7 +892,7 @@ protected:
   virtual void doHandle(TableState &ts, bool VERBOSE) const = 0;
   virtual void copyBalls(TableState &ts);
 #ifndef SWIG
-  virtual ostream &dump(ostream &out) const;
+  virtual std::ostream &dump(std::ostream &out) const;
 
 private:
   // copy and assignment
@@ -922,7 +914,7 @@ public:
   StateChangeEvent(double time, Ball::Type b) : Event(time, b) {}
 
   virtual Type getType() const { return STATE_CHANGE; }
-  virtual string getTypeString() const { return "State Change"; }
+  virtual std::string getTypeString() const { return "State Change"; }
 
 protected:
   virtual void doHandle(TableState &ts, bool VERBOSE) const;
@@ -945,7 +937,7 @@ public:
       : Event(time, b1), _ball2(b2), _ball2Data(NULL) {}
 
   virtual Type getType() const { return BALL_COLLISION; }
-  virtual string getTypeString() const { return "Ball Collision"; }
+  virtual std::string getTypeString() const { return "Ball Collision"; }
   virtual bool relatedTo(const Event &other) const;
   virtual bool involvesBall(Ball::Type b) const;
   virtual ~BallCollisionEvent() { delete _ball2Data; }
@@ -960,7 +952,7 @@ protected:
   virtual void copyBalls(TableState &ts);
   virtual void doHandle(TableState &ts, bool VERBOSE) const;
 #ifndef SWIG
-  virtual ostream &dump(ostream &out) const;
+  virtual std::ostream &dump(std::ostream &out) const;
 
 private:
   // copy and assignment
@@ -977,7 +969,7 @@ public:
       : Event(time, b), _rail(rail) {}
 
   virtual Type getType() const { return RAIL_COLLISION; }
-  virtual string getTypeString() const { return "Rail Collision"; }
+  virtual std::string getTypeString() const { return "Rail Collision"; }
 
   /** Returns the ID of the rail collided with. */
   Table::BoundaryId getRail() const { return _rail; }
@@ -987,7 +979,7 @@ protected:
 
   virtual void doHandle(TableState &ts, bool VERBOSE) const;
 #ifndef SWIG
-  virtual ostream &dump(ostream &out) const;
+  virtual std::ostream &dump(std::ostream &out) const;
 
 private:
   // copy and assignment
@@ -1004,7 +996,7 @@ public:
       : Event(time, b), _pocket(pocket) {}
 
   virtual Type getType() const { return POCKETED; }
-  virtual string getTypeString() const { return "Ball Pocketed"; }
+  virtual std::string getTypeString() const { return "Ball Pocketed"; }
 
   /** Returns the ID of the pocket. */
   Table::Pocket getPocket() const { return _pocket; }
@@ -1014,7 +1006,7 @@ protected:
 
   virtual void doHandle(TableState &ts, bool VERBOSE) const;
 #ifndef SWIG
-  virtual ostream &dump(ostream &out) const;
+  virtual std::ostream &dump(std::ostream &out) const;
 
 private:
   // copy and assignment
@@ -1039,7 +1031,7 @@ public:
       : Event(time, b), _params(params) {}
 
   virtual Type getType() const { return CUE_STRIKE; }
-  virtual string getTypeString() const { return "Cue Strike"; }
+  virtual std::string getTypeString() const { return "Cue Strike"; }
 
   /** Return shot parameters */
   const ShotParams &getParams() const { return _params; }
@@ -1050,7 +1042,7 @@ protected:
 #endif /* SWIG */
   virtual void doHandle(TableState &ts, bool VERBOSE) const;
 #ifndef SWIG
-  virtual ostream &dump(ostream &out) const;
+  virtual std::ostream &dump(std::ostream &out) const;
 
 private:
   // copy and assignment
@@ -1074,7 +1066,7 @@ public:
    * The vector is sorted by time, and all relevant ball information is
    * available in the events.
    */
-  const vector<Event *> &getEventList() const { return shotEvents; }
+  const std::vector<Event *> &getEventList() const { return shotEvents; }
   /** Returns the amount of time (in seconds) balls will take to settle after
    * executing the shot. */
   double getDuration() const;
@@ -1090,7 +1082,7 @@ private:
   Shot &operator=(const Shot &rhs);
 
 #ifndef SWIG
-  vector<Event *> shotEvents;
+  std::vector<Event *> shotEvents;
 
   // Can throw BadShotException from simulateShot
   Shot(TableState &state, const ShotParams &sp,
@@ -1112,16 +1104,16 @@ private:
   static double updateSpinning(double w_z, double t, double mu_sp, double R,
                                bool isSliding);
 
-  static void removeRelatedEvents(list<Event *> &events, Event *lastEvent);
+  static void removeRelatedEvents(std::list<Event *> &events, Event *lastEvent);
   static void addRelatedFutureEvents(TableState &state, double curTime,
-                                     list<Event *> &futureEvents, Ball::Type b1,
+                                     std::list<Event *> &futureEvents, Ball::Type b1,
                                      Ball::Type b2);
   static Event *nextTransitionEvent(const Table &table, Ball &ball,
                                     double curTime);
   static Event *nextCollisionEvent(const Table &table, Ball &ball1, Ball &ball2,
                                    double curTime);
   static void addBoundaryEvents(const Table &table, Ball &ball, double curTime,
-                                list<Event *> &futureEvents);
+                                std::list<Event *> &futureEvents);
   static double calcEventTime(int numRoots, double root1, double root2,
                               double curTime);
 
@@ -1140,7 +1132,7 @@ private:
    static void handleCueStrike(Ball &ball, const ShotParams &sp);
    */
 
-// static void addFutureEvents(TableState &state, double curTime, list<Event*>
+// static void addFutureEvents(TableState &state, double curTime, std::list<Event*>
 // &futureEvents);
 
 // static constexpr double BALL_MASS = 160.0; //From Marlow, in line with BCA
@@ -1154,7 +1146,7 @@ private:
 };
 #ifndef SWIG
 /** Print a human-readable representation of the shot to a stream */
-ostream &operator<<(ostream &out, Shot &rhs); // doesn't need to be friend
+std::ostream &operator<<(std::ostream &out, Shot &rhs); // doesn't need to be friend
 #endif                                        /* ! SWIG */
 
 /** The physical state of balls on a table.
@@ -1339,13 +1331,13 @@ public:
   int getNumBalls() const { return balls.size(); }
 #ifndef SWIG
   /** Iterator for start of ball vector */
-  vector<Ball>::iterator getBegin() { return balls.begin(); }
+  std::vector<Ball>::iterator getBegin() { return balls.begin(); }
   /** Iterator for end of ball vector */
-  vector<Ball>::iterator getEnd() { return balls.end(); }
+  std::vector<Ball>::iterator getEnd() { return balls.end(); }
   /** Const Iterator for start of ball vector */
-  vector<Ball>::const_iterator getBegin() const { return balls.begin(); }
+  std::vector<Ball>::const_iterator getBegin() const { return balls.begin(); }
   /** Const Iterator for end of ball vector */
-  vector<Ball>::const_iterator getEnd() const { return balls.end(); }
+  std::vector<Ball>::const_iterator getEnd() const { return balls.end(); }
 
   void fixOverlap(const bool VERBOSE);
 #endif /* ! SWIG */
@@ -1407,7 +1399,7 @@ public:
     try {
       $function
     } catch (Pool::BadShotException &ex) {
-      string msg = "Bad Shot: " + ex.getTypeString();
+      std::string msg = "Bad Shot: " + ex.getTypeString();
       SWIG_exception(SWIG_ValueError, msg.c_str());
     }
   }
@@ -1447,23 +1439,23 @@ public:
 #ifndef SWIG
   /** Writes a machine-readable representation of the table state to a stream.
    */
-  void toStream(ostream &out) const;
+  void toStream(std::ostream &out) const;
   /** Reads a machine-readable representation of the table state from a stream.
    * Should be used on output of toStream() or toString().
    */
-  void fromStream(istream &in);
+  void fromStream(std::istream &in);
 #endif /* ! SWIG */
   /** Returns a machine-readable representation of the table state as a string*/
-  string toString() const;
+  std::string toString() const;
   /** Reads a machine-readable representation of the table state from a string.
    * Should be used on output of toStream() or toString().
    */
-  void fromString(const string &s);
+  void fromString(const std::string &s);
 #ifndef SWIG
 
 private:
   const Table &_table;
-  vector<Ball> balls;
+  std::vector<Ball> balls;
 
   static constexpr double DITHER = 0.00005;
   static constexpr double EPSILON_B = 0.001; /**< small value added to the b
@@ -1482,18 +1474,18 @@ private:
 #endif /* ! SWIG */
 };
 #ifndef SWIG
-ostream &operator<<(ostream &out, TableState &rhs); // doesn't need to be friend
+std::ostream &operator<<(std::ostream &out, TableState &rhs); // doesn't need to be friend
 #endif                                              /* ! SWIG */
 
 /** Return a string identifying the version and build information of the library
  */
-string getFastFizVersion();
+std::string getFastFizVersion();
 #ifndef SWIG
 /** Return a string identifying the version and build information of the
  * library.
  *  @deprecated Use getFastFizVersion().
  */
-inline string getPoolfizVersion() { return getFastFizVersion(); }
+inline std::string getPoolfizVersion() { return getFastFizVersion(); }
 #endif /* ! SWIG */
 
 #ifndef SWIG
@@ -1503,7 +1495,7 @@ inline string getPoolfizVersion() { return getFastFizVersion(); }
 void rack(TableState &ts);
 /** Dump event list to standard error. Debugging function.
 */
-void printEvents(list<Event *> events);
+void printEvents(std::list<Event *> events);
 /** Print overlapping balls in table state. Debugging function.
 */
 void printOverlap(TableState &ts);
@@ -1523,7 +1515,7 @@ ShotParams *getTestShotParams();
 #ifdef SWIG
 %include "std_vector.i"
 namespace std {
-  %template(EventVector) vector<Pool::Event *>;
+  %template(EventVector) std::vector<Pool::Event *>;
 }
 #endif /* SWIG */
 

@@ -1,6 +1,7 @@
 #include "Stopwatch.h"
 #include <sys/resource.h>
 #include <sys/time.h>
+#include <time.h>
 
 double TimevalStopwatch::now() const {
   timeval tv = now_timeval();

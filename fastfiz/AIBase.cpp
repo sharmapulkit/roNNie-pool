@@ -1,5 +1,6 @@
 #include "AIBase.h"
 
+using namespace std;
 using namespace Pool;
 
 GameShot &Pool::AIBase::computeShot(const GameState &gs,

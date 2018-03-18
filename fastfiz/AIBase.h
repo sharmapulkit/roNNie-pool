@@ -14,8 +14,6 @@
 #include <stdio.h>
 #include <string>
 
-using namespace std;
-
 #define MAX_RETRIES 10
 
 namespace Pool {
@@ -57,14 +55,14 @@ public:
    *
    *  Generally, you need not re-implement this method in your AI.
    */
-  virtual string getName() const { return _config.lookup("name"); };
+  virtual std::string getName() const { return _config.lookup("name"); };
 
   /** Return the password for your AI.
    *  Default implementation reads it from the config file under "password".
    *
    *  Generally, you need not re-implement this method in your AI.
    */
-  virtual string getPassword() const { return _config.lookup("password"); };
+  virtual std::string getPassword() const { return _config.lookup("password"); };
 
   /** Return the owner ID for the AI.
    *  Owner ID is used in a multi-user server to allow non-admin users to view
@@ -73,7 +71,7 @@ public:
    *
    *  Generally, you need not re-implement this method in your AI.
    */
-  virtual string getOwner() const { return ""; };
+  virtual std::string getOwner() const { return ""; };
 
   /** Check if the AI can handle a specific game type.
    *  Default implementation is to always return false.

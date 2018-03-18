@@ -1,4 +1,5 @@
 #include "Rules.h"
+#include <cmath>
 #include <iostream>
 #include <sstream>
 #include <string>
