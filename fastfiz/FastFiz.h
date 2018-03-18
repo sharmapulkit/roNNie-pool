@@ -2,10 +2,11 @@
 #define _FastFiz_h
 
 #ifdef SWIG
-% include exception.i % include "std_string.i" % {
+%include exception.i
+%include "std_string.i"
+%{
 #include "FastFiz.h"
-  %
-}
+%}
 #endif /* SWIG */
 
 #include <algorithm>
@@ -1402,7 +1403,7 @@ public:
 #endif /* ! SWIG */
 
 #ifdef SWIG
-  % exception {
+  %exception {
     try {
       $function
     } catch (Pool::BadShotException &ex) {
@@ -1411,7 +1412,7 @@ public:
     }
   }
 
-  % newobject executeShot;
+  %newobject executeShot;
 #endif /* SWIG */
        /** Execute given shot on the table state.
         * The TableState object will be modified to reflect the final state of the
@@ -1430,7 +1431,7 @@ public:
   }
 
 #ifdef SWIG
-  % exception;
+  %exception;
 #endif /* SWIG */
 
   // Returns the first ball that will be hit by the cue ball by the given shot.
@@ -1507,12 +1508,12 @@ void printEvents(list<Event *> events);
 */
 void printOverlap(TableState &ts);
 #else  /* SWIG */
-% newobject getTestState;
+%newobject getTestState;
 #endif /* SWIG */
 /** Return a racked state for testing purposes. Debugging function. */
 TableState *getTestState();
 #ifdef SWIG
-% newobject getTestShotParams();
+%newobject getTestShotParams();
 #endif /* SWIG */
 /** Return sample shot parameters that work with the test state. */
 ShotParams *getTestShotParams();
@@ -1520,11 +1521,9 @@ ShotParams *getTestShotParams();
 } // namespace Pool
 
 #ifdef SWIG
-
-% include "std_vector.i"
-
-    namespace std {
-  % template(EventVector) vector<Pool::Event *>;
+%include "std_vector.i"
+namespace std {
+  %template(EventVector) vector<Pool::Event *>;
 }
 #endif /* SWIG */
 

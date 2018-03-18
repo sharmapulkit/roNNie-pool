@@ -2,10 +2,9 @@
 #define POOL_NOISE_H
 
 #ifdef SWIG
-% {
+%{
 #include "Noise.h"
-  %
-}
+%}
 #endif /* SWIG */
 
 #include "FastFiz.h"

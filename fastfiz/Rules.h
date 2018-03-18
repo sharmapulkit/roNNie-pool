@@ -3,11 +3,11 @@
 
 #include "FastFiz.h"
 #ifdef SWIG
-% include "std_string.i" % {
+%include "std_string.i"
+%{
 #include "Rules.h"
-  using namespace Pool;
-  %
-}
+using namespace Pool;
+%}
 #endif /* SWIG */
 #include <string>
 using namespace std;

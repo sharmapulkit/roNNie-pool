@@ -2,10 +2,11 @@
 #define _LogFile_h
 
 #ifdef SWIG
-% include exception.i % include "std_string.i" % {
+%include exception.i
+%include "std_string.i"
+%{
 #include "LogFile.h"
-  %
-}
+%}
 #endif /* SWIG */
 
 #include "FastFiz.h"
