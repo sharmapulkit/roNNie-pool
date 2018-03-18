@@ -1,4 +1,8 @@
 #include "AIBase.h"
+#include "Noise.h"
+#include "Stopwatch.h"
+
+#include <iostream>
 
 using namespace std;
 using namespace Pool;

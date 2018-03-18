@@ -7,16 +7,16 @@
 #ifndef _AIBASE_H_
 #define _AIBASE_H_
 
-#include "Noise.h"
 #include "Rules.h"
-#include "Stopwatch.h"
-#include <libconfig.hh>
-#include <stdio.h>
 #include <string>
 
 #define MAX_RETRIES 10
 
+class Stopwatch;
+
 namespace Pool {
+
+class Noise;
 
 /** Base class for pool AI implementations.
  *  When writing your AI, inherit from this class.
@@ -24,12 +24,11 @@ namespace Pool {
 class AIBase {
 public:
   /** Constructor. Generates a new AI instance.
-   *  \param config Config object with configuration information for the AI.
    *  \param stopwatch A Stopwatch object allowing access to the time model
    * used.
    */
-  AIBase(libconfig::Config &config, Stopwatch *stopwatch)
-      : _config(config), _stopwatch(stopwatch){};
+  AIBase(Stopwatch *stopwatch)
+      : _stopwatch(stopwatch){};
 
   /** Compute a shot for a given game state and noise information.
    *  Default implementation keeps shot information, makes sure the AI can
@@ -49,29 +48,6 @@ public:
    *  Generally, you need not re-implement this method in your AI.
    */
   virtual GameShot &reComputeShot();
-
-  /** Return the name of your AI.
-   *  Default implementation reads it from the config file under "name".
-   *
-   *  Generally, you need not re-implement this method in your AI.
-   */
-  virtual std::string getName() const { return _config.lookup("name"); };
-
-  /** Return the password for your AI.
-   *  Default implementation reads it from the config file under "password".
-   *
-   *  Generally, you need not re-implement this method in your AI.
-   */
-  virtual std::string getPassword() const { return _config.lookup("password"); };
-
-  /** Return the owner ID for the AI.
-   *  Owner ID is used in a multi-user server to allow non-admin users to view
-   * information related to the agent.
-   *  Default implementation does not specify an owner ID.
-   *
-   *  Generally, you need not re-implement this method in your AI.
-   */
-  virtual std::string getOwner() const { return ""; };
 
   /** Check if the AI can handle a specific game type.
    *  Default implementation is to always return false.
@@ -113,9 +89,6 @@ protected:
    * shot should be written to the "shot" member.
    */
   virtual void otherShot() = 0;
-
-  /** Configuration information for the agent */
-  libconfig::Config &_config;
 
   /** Stopwatch object defining time model used by the agent */
   Stopwatch *const _stopwatch;
