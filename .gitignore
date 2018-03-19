@@ -4,5 +4,7 @@ __pycache__
 *.so
 *.swp
 *_wrap.cpp
-
+*.pyc
+*.png
+*.jpg
 fastfiz/fastfiz.py
