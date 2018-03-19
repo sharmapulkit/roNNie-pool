@@ -8,13 +8,13 @@ from distutils.core import setup, Extension
 import glob
 
 fastfiz_module = Extension('_fastfiz',
-                           sources=['src/fastfiz.i',
+                           sources=['swig/fastfiz.i',
                                     'src/FastFiz.cpp',
                                     'src/Noise.cpp',
                                     'src/Rules.cpp',
                                     'src/Stopwatch.cpp'],
                            include_dirs=['include'],
-                           swig_opts=['-c++', '-Wall', '-Iinclude'],
+                           swig_opts=['-c++', '-Wall', '-Iinclude', '-outdir', '.'],
                            extra_compile_args=['-std=c++11'],
                            extra_link_args=['-lgsl', '-lgslcblas'],
                            )
