@@ -1,4 +1,9 @@
-# Computational Billiards Library
+# Installation
+```
+python setup.py build_ext
+```
+
+# FastFiz: Computational Billiards Library
 ## Introduction
 The FastFiz library consists of two major components: The physics engine and
 the rules engine, and several auxiliary components. The library also contains
