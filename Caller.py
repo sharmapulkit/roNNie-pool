@@ -25,6 +25,7 @@ def parse_gamestate(s_gamestate):
 	s_splt = [float(x) for x in s_splt]
 	gameType = s_splt[0]
 	turnType = s_splt[1]
+	print("Turn type : " + str(turnType))
 	timeLeft = s_splt[2]
 	timeLeft_opp = s_splt[3]
 	curPlayer_started = s_splt[4]
@@ -44,14 +45,16 @@ if __name__=="__main__":
 	gamestate = f.GameState.RackedState(1)
 	string_gamestate = gamestate.toString()
 	ball_arr = parse_gamestate(string_gamestate)
-	print(ball_arr)
-	# shot = f.ShotParams(5., 5., 10., 30., 2.)
-	# Gshot = f.GameShot()
-	# Gshot.ball = 1
-	# Gshot.params = shot
-	# Gshot.pocket = 0
-	# gamestate.executeShot(Gshot)
-	# string_gamestate_after = gamestate.toString()
-	# ball_arr_after = parse_gamestate(string_gamestate_after)
-	# print(np.array(ball_arr_after)-np.array(ball_arr))
-	# shot.processShot(eventList, gameshot);
+	# print(ball_arr)
+	shot = f.ShotParams(0., 0., 5., 270., 2.)
+	Gshot = f.GameShot()
+	Gshot.ball = f.Ball.ONE
+	Gshot.params = shot
+	Gshot.pocket = 1
+	Gshot.cue_x = 0.5
+	Gshot.cue_y = 1.7
+	
+	gamestate.executeShot(Gshot)
+	string_gamestate_after = gamestate.toString()
+	ball_arr_after = parse_gamestate(string_gamestate_after)
+	print(np.array(ball_arr_after))	
