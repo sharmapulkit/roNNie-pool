@@ -8,3 +8,5 @@ __pycache__
 *.png
 *.jpg
 fastfiz/fastfiz.py
+*_bk
+.vscode

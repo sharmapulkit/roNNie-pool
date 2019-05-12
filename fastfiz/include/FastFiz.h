@@ -94,8 +94,7 @@ struct ShotParams {
                CUE ball in mm. */
   double theta; /**< The elevation of the cue stick in degrees. */
   double phi;   /**< The azumith angle (heading) of the cue stick in degrees. */
-  double
-      v; /**< The velocity of the cue stick before impact in m/s (max is 4.5
+  double v; /**< The velocity of the cue stick before impact in m/s (max is 4.5
             m/s). */
 
   /**
@@ -121,8 +120,8 @@ struct ShotParams {
   /**
    * Copy constructor.
    */
-  ShotParams(const ShotParams &rhs)
-      : a(rhs.a), b(rhs.b), theta(rhs.theta), phi(rhs.phi), v(rhs.v) {}
+  // ShotParams(const ShotParams &rhs)
+  //     : a(rhs.a), b(rhs.b), theta(rhs.theta), phi(rhs.phi), v(rhs.v) {}
 };
 
 #ifndef SWIG

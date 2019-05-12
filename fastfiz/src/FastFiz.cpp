@@ -1,6 +1,7 @@
 #include "FastFiz.h"
 #include "Stopwatch.h"
 
+#include <cmath>
 #include <algorithm>
 #include <cassert>
 #include <iomanip>

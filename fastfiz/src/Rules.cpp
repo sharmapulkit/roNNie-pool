@@ -505,9 +505,9 @@ void EightBallState::rack() {
 }
 
 namespace Pool {
-string getRulesVersion() {
-  return "Rules version 0.1 built " __DATE__ " " __TIME__;
-}
+  string getRulesVersion() {
+    return "Rules version 0.1 built " __DATE__ " " __TIME__;
+  }
 }
 
 void EightBallState::toStream(ostream &out) const {
